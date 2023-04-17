@@ -1,14 +1,14 @@
 import React from 'react'
 import Select from './Select'
-import { webOptions, categories } from '../../mockedData'
+import { webOptions, categories } from '../../options'
 
 const Filters = () => {
     return (
         <section className="filters">
             <Select
-                name={'web'}
-                label={'Web'}
-                id={'web'}
+                name={'api'}
+                label={'Api'}
+                id={'api'}
                 options={webOptions}
             >
             </Select>
