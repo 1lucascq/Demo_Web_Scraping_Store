@@ -8,19 +8,19 @@ const fetchMlData = {
     fridges: async () => {
         const response = await fetch(LINKS.fridges);
         const fridgesData = await response.json();
-        console.log(fridgesData);
+
         return fridgesData;
     },
     tvs: async () => {
         const response = await fetch(LINKS.tvs);
         const tvsData = await response.json();
-        console.log(tvsData);
+
         return tvsData;
     },
     smartphones: async () => {
         const response = await fetch(LINKS.smartphones);
         const smartphonesData = await response.json();
-        console.log(smartphonesData);
+
         return smartphonesData;
     }
 }
