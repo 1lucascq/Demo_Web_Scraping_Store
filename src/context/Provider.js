@@ -18,6 +18,7 @@ function Provider({ children }) {
     useEffect(() => {
         async function getData() {
             setActiveData(undefined);
+            setActiveFilteredData(undefined);
 
             if(filters.api === 'ml') {
                 const filteredData = await fetchMlData[filters.category]()
