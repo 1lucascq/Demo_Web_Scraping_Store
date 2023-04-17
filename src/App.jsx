@@ -3,6 +3,8 @@ import Header from './components/Header';
 import SearchBox from './components/SearchBox';
 import Filters from './components/Filters';
 import Cards from './components/Cards';
+import Footer from './components/Footer';
+
 export default function App() {
 	return (
 		<main>
@@ -10,6 +12,7 @@ export default function App() {
 			<SearchBox></SearchBox>
 			<Filters></Filters>
 			<Cards></Cards>
+			<Footer></Footer>
 		</main>
 	);
 }
