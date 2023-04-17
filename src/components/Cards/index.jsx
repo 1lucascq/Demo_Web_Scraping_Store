@@ -4,18 +4,10 @@ import Card from './Card'
 
 const Cards = () => {
     const { activeData, mlData, setActiveData, filters } = useContext(context)
-    console.log('activeData')
-    console.log(activeData)
-
-    // if (mlData && filters) {
-    //     const selectedCategory = filters.category;
-    //     setActiveData(mlData[selectedCategory])
-    // }
 
     return (
         <section className="productCards">
-            <div>oi</div>
-            {activeData ? activeData.map(({id, price, title, thumbnail}) => {
+            {activeData.length ? activeData.map(({id, price, title, thumbnail}) => (
                 <Card
                     id={id}
                     price={price}
@@ -23,10 +15,9 @@ const Cards = () => {
                     thumbnail={thumbnail}
                     key={id}
                 />
-            })
-            : <div>tokinao</div>
+            ))
+            : <div className='loader'></div>
         }
-            <div>tchau</div>
         </section>
     )
 }
