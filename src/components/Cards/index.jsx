@@ -3,16 +3,16 @@ import context from '../../context/Context'
 import Card from './Card'
 
 const Cards = () => {
-    const { activeData, mlData, setActiveData, filters } = useContext(context)
+    const { activeData } = useContext(context)
 
     return (
         <section className="productCards">
-            {activeData.length ? activeData.map(({id, price, title, thumbnail}) => (
+            {activeData && activeData.length ? activeData.map(({id, price, title, name, image, thumbnail}) => (
                 <Card
                     id={id}
                     price={price}
-                    title={title}
-                    thumbnail={thumbnail}
+                    title={title || name}
+                    thumbnail={thumbnail || image}
                     key={id}
                 />
             ))
