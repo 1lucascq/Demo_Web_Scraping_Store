@@ -1,10 +1,12 @@
 import React from 'react'
 import Select from './Select'
+import SearchBox from './SearchBox'
 import { webOptions, categories } from '../../options'
 
 const Filters = () => {
     return (
         <section className="filters">
+            <SearchBox></SearchBox>
             <Select
                 name={'api'}
                 label={'Api'}
