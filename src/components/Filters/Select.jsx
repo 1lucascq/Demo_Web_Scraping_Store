@@ -2,17 +2,23 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import context from '../../context/Context';
 
-const Select = ({ label, name, id, options }) => {
-    const { mlData, setMlData, filters, setFilters } = useContext(context);
-    // const [filter, setFilter] = useState();
+const Select = ({ name, id, options }) => {
+    const { filters, setFilters } = useContext(context);
+
+    const updateFilters = (target) => {
+        if (name === 'categories') {
+            setFilters({api: filters.api, category: target.value })
+            return;
+        }
+        setFilters({api: target.value, category: filters.category })
+    }
 
     return (
         <div className="selector">
-            {/* <label htmlFor={id}>{label}</label> */}
             <select
                 name={name}
                 id={id}
-                onChange={({ target }) => setFilters({api: filters.api, category: target.name})}
+                onChange={({ target }) => updateFilters(target)}
             >
                 {options.map((option, i) => {
                     return (
@@ -27,7 +33,6 @@ const Select = ({ label, name, id, options }) => {
 }
 
 Select.propTypes = {
-    label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
