@@ -14,18 +14,23 @@ function Provider({ children }) {
     const [activeData, setActiveData] = useState([]);
 
     useEffect(() => {
+        console.log('useEffect')
         async function getCategories() {
+            const fridges = (await fetchMlData.fridges()).results
+            const tvs = (await fetchMlData.tvs()).results
+            const smartphones = (await fetchMlData.smartphones()).results
+
             const mlItems = {
-                fridges: (await fetchMlData.fridges()).results,
-                tvs: (await fetchMlData.tvs()).results,
-                smartphones: (await fetchMlData.smartphones()).results,
+                fridges,
+                tvs,
+                smartphones
             }
 
             setMlData(mlItems)
+            setActiveData(mlItems.fridges);
         }
 
         getCategories()
-        setActiveData(mlData.fridges);
     }, []);
 
 
