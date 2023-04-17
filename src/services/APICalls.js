@@ -24,9 +24,9 @@ const fetchMlData = {
 }
 
 const fetchBuscapeData = {
-    geladeira: async () => await fetchData(BUSCAPE_LINKS.geladeira),
-    tv: async () => await fetchData(BUSCAPE_LINKS.tv),
-    celular: async () => await fetchData(BUSCAPE_LINKS.celular)
+    geladeira: async () => await fetchData(BUSCAPE_LINKS.geladeira, {mode: 'no-cors'}),
+    tv: async () => await fetchData(BUSCAPE_LINKS.tv, {mode: 'no-cors'}),
+    celular: async () => await fetchData(BUSCAPE_LINKS.celular, {mode: 'no-cors'})
 }
 
 export {fetchMlData, fetchBuscapeData};

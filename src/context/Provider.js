@@ -13,10 +13,12 @@ function Provider({ children }) {
     const [buscapeData, setBuscapeData] = useState({});
     const [filters, setFilters] = useState(DEFAULT_FILTERS);
     const [activeData, setActiveData] = useState([]);
+    const [activeFilteredData, setActiveFilteredData] = useState([]);
 
     useEffect(() => {
         async function getData() {
             setActiveData(undefined);
+            setActiveFilteredData(undefined);
 
             if(filters.api === 'ml') {
                 const filteredData = await fetchMlData[filters.category]()
@@ -41,10 +43,8 @@ function Provider({ children }) {
                 setActiveData(...mlData);
                 console.log('oi')
                 try {
-                    console.log('ola')
                     const buscapeData = await fetchBuscapeData[filters.category]();
                     setActiveData(...activeData, ...buscapeData);
-                    console.log('tchau')
                 } catch (error) {
                     const filteredData = [...mlData]
                     setActiveData(filteredData);
@@ -68,7 +68,9 @@ function Provider({ children }) {
                 filters,
                 setFilters,
                 activeData,
-                setActiveData
+                setActiveData,
+                activeFilteredData,
+                setActiveFilteredData
             }}
         >
             {children}

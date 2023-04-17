@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Card = ({ id, price, title, thumbnail }) => {
+const Card = ({ id, price, title, thumbnail, store }) => {
     const getPrice = (price) => {
         if (typeof price === 'number') {
             const priceInReais = `R$ ${price.toFixed(2).replace('.', ',')}`;
@@ -18,6 +18,7 @@ const Card = ({ id, price, title, thumbnail }) => {
                 </div>
                 <div className="gridElement productData">
                     <h2 className="productName">{title}</h2>
+                    <p className='productStore'>Loja: {store ? store : 'Mercado Livre'}</p>
                     <p className="productPrice">{getPrice(price)}</p>
                     <div className='buttonWrapper'>
                         <button className="buyButton" type="button">
@@ -33,8 +34,9 @@ const Card = ({ id, price, title, thumbnail }) => {
 Card.propTypes = {
     price: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    store: PropTypes.string,
 }
 
 export default Card

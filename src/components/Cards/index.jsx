@@ -3,21 +3,39 @@ import context from '../../context/Context'
 import Card from './Card'
 
 const Cards = () => {
-    const { activeData } = useContext(context)
+    const { activeData, activeFilteredData } = useContext(context)
 
     return (
         <section className="productCards">
-            {activeData && activeData.length ? activeData.map(({id, price, title, name, image, thumbnail}) => (
-                <Card
-                    id={id}
-                    price={price}
-                    title={title || name}
-                    thumbnail={thumbnail || image}
-                    key={id}
-                />
-            ))
-            : <div className='loader'></div>
-        }
+            {activeFilteredData && activeFilteredData.length ? (
+                activeFilteredData.map(
+                    ({ id, price, title, name, image, thumbnail, store }) => (
+                        <Card
+                            id={id}
+                            price={price}
+                            title={title || name}
+                            thumbnail={thumbnail || image}
+                            key={id}
+                            store={store || undefined}
+                        />
+                    )
+                )
+            ) : activeData && activeData.length ? (
+                activeData.map(
+                    ({ id, price, title, name, image, thumbnail, store }) => (
+                        <Card
+                            id={id}
+                            price={price}
+                            title={title || name}
+                            thumbnail={thumbnail || image}
+                            key={id}
+                            store={store || undefined}
+                        />
+                    )
+                )
+            ) : (
+                <div className="loader"></div>
+            )}
         </section>
     )
 }
