@@ -1,6 +1,6 @@
 
-import '../src/styles/main.css';
-import Provider from '../src/app/context/Provider';
+import '../styles/main.css';
+import Provider from '../app/context/Provider';
 
 function MyApp({ Component, pageProps }) {
 	return (
