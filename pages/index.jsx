@@ -21,15 +21,25 @@ const Home = ({ scrapedData }) => {
 };
 
 export async function getServerSideProps() {
-    const URL = process.env.URL || 'http://localhost:3000';
-	const res = await fetch(`${URL}/api/scrape`);
-	const data = await res.json();
-    console.log(data.data[0].name)
-	return {
-		props: {
-			scrapedData: data.data,
-		},
-	};
+	try {
+		const URL = process.env.URL || 'http://localhost:3000';
+		console.log('URL ----->', URL)
+		const res = await fetch(`${URL}/api/scrape`);
+		const data = await res.json();
+		console.log(data.data[0].name);
+		return {
+			props: {
+				scrapedData: data.data,
+			},
+		};
+	} catch (error) {
+		console.error('error ------->', error);
+		return {
+			props: {
+				scrapedData: ['deu ruim'],
+			},
+		};
+	}
 }
 
 export default Home;
