@@ -1,10 +1,9 @@
 import puppeteer from 'puppeteer-extra';
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(StealthPlugin());
 
-// const stealth = StealthPlugin();
-// stealth.enabledEvasions.clear();
-// puppeteer.use(stealth);
+const stealth = StealthPlugin();
+stealth.enabledEvasions.clear();
+puppeteer.use(stealth);
 
 export default async function handler(req, res) {
     const product = req.query.product || 'tv';
