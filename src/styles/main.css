@@ -1,0 +1,11 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'variables.css';
+@import 'base.css';
+@import 'loader.css';
+@import '../components/Header/header.css';
+@import '../components/Filters/filters.css';
+@import '../components/Cards/cards.css';
+@import '../components/Footer/footer.css';
