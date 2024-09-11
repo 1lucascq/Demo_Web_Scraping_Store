@@ -20,12 +20,17 @@ const Home = ({ URL }) => {
 					fetch(`${URL}/api/scrape?product=celular`),
 					fetch(`${URL}/api/scrape?product=geladeira`),
 				]);
+
+				if (!responseTv.ok || !responseCelular.ok || !responseGeladeira.ok) {
+					throw new Error('One or more fetch requests failed');
+				}
+
 				const [tv, celular, geladeira] = await Promise.all([responseTv.json(), responseCelular.json(), responseGeladeira.json()]);
 				const buscapeData = { tv, celular, geladeira };
 
 				setBuscapeData(buscapeData);
 			} catch (err) {
-				console.log(mockedBuscapeData)
+				console.log(mockedBuscapeData);
 				setBuscapeData(mockedBuscapeData);
 			}
 		};
