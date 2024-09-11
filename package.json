@@ -17,7 +17,8 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.78.0"
+    "sass": "^1.78.0",
+    "use-debounce": "^10.0.3"
   },
   "devDependencies": {
     "eslint": "^8",

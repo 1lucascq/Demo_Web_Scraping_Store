@@ -11,7 +11,7 @@ const buscape = {
 	value: 'buscape',
 };
 
-export const webOptions = [mercadoLivre, buscape, all];
+export const webOptions = [buscape, mercadoLivre, all];
 
 const fridge = {
 	name: 'Geladeira',

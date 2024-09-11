@@ -42,7 +42,7 @@ const Home = ({ URL }) => {
 		<>
 			<Header />
 			<Filters />
-			<main>
+			<main className='container mx-auto'>
 				<Cards />
 			</main>
 			<Footer />
