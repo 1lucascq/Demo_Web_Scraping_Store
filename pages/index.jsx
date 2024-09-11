@@ -11,7 +11,6 @@ const scrapErrorMessage =
 
 const Home = ({ errorMessage }) => {
 	const { setBuscapeData } = useContext(DataContext);
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -29,7 +28,6 @@ const Home = ({ errorMessage }) => {
 				setBuscapeData(buscapeData);
 			} catch (err) {
 				setBuscapeData(mockedBuscapeData);
-				setError(scrapErrorMessage);
 			}
 		};
 
@@ -38,7 +36,6 @@ const Home = ({ errorMessage }) => {
 
 	return (
 		<>
-			<h1>{error ? errorMessage : null}</h1>
 			<Header />
 			<Filters />
 			<main>
@@ -49,23 +46,23 @@ const Home = ({ errorMessage }) => {
 	);
 };
 
-export async function getServerSideProps() {
-	try {
-		// Mock data, or you can return an error message as needed
-		return {
-			props: {
-				errorMessage: 'There was an issue fetching data from the server.',
-			},
-		};
-	} catch (error) {
-		console.error('Error --->', error);
-		return {
-			props: {
-				errorMessage:
-					'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.',
-			},
-		};
-	}
-}
+// export async function getServerSideProps() {
+// 	try {
+// 		// Mock data, or you can return an error message as needed
+// 		return {
+// 			props: {
+// 				errorMessage: 'There was an issue fetching data from the server.',
+// 			},
+// 		};
+// 	} catch (error) {
+// 		console.error('Error --->', error);
+// 		return {
+// 			props: {
+// 				errorMessage:
+// 					'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.',
+// 			},
+// 		};
+// 	}
+// }
 
 export default Home;
