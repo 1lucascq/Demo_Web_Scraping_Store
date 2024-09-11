@@ -15,7 +15,7 @@ const Home = ({ errorMessage }) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const baseURL = process.env.URL || 'http://localhost:3000';
+				const baseURL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
 				const [responseTv, responseCelular, responseGeladeira] = await Promise.all([
 					fetch(`${baseURL}/api/scrape?product=tv`),
