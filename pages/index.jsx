@@ -9,24 +9,23 @@ import { mockedBuscapeData } from '../app/options';
 const scrapErrorMessage =
 	'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.';
 
-const Home = ({ errorMessage }) => {
+const Home = ({ URL }) => {
 	const { setBuscapeData } = useContext(DataContext);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const baseURL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
-
 				const [responseTv, responseCelular, responseGeladeira] = await Promise.all([
-					fetch(`${baseURL}/api/scrape?product=tv`),
-					fetch(`${baseURL}/api/scrape?product=celular`),
-					fetch(`${baseURL}/api/scrape?product=geladeira`),
+					fetch(`${URL}/api/scrape?product=tv`),
+					fetch(`${URL}/api/scrape?product=celular`),
+					fetch(`${URL}/api/scrape?product=geladeira`),
 				]);
 				const [tv, celular, geladeira] = await Promise.all([responseTv.json(), responseCelular.json(), responseGeladeira.json()]);
 				const buscapeData = { tv, celular, geladeira };
 
 				setBuscapeData(buscapeData);
 			} catch (err) {
+				console.log(mockedBuscapeData)
 				setBuscapeData(mockedBuscapeData);
 			}
 		};
@@ -46,23 +45,24 @@ const Home = ({ errorMessage }) => {
 	);
 };
 
-// export async function getServerSideProps() {
-// 	try {
-// 		// Mock data, or you can return an error message as needed
-// 		return {
-// 			props: {
-// 				errorMessage: 'There was an issue fetching data from the server.',
-// 			},
-// 		};
-// 	} catch (error) {
-// 		console.error('Error --->', error);
-// 		return {
-// 			props: {
-// 				errorMessage:
-// 					'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.',
-// 			},
-// 		};
-// 	}
-// }
+export async function getServerSideProps() {
+	try {
+		// Mock data, or you can return an error message as needed
+		return {
+			props: {
+				URL: process.env.NEXT_PUBLIC_URL || process.env.URL || 'http://localhost:3000',
+			},
+		};
+	} catch (error) {
+		console.error('Error --->', error);
+		return {
+			props: {
+				URL: process.env.NEXT_PUBLIC_URL || process.env.URL || 'http://localhost:3000',
+				errorMessage:
+					'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.',
+			},
+		};
+	}
+}
 
 export default Home;

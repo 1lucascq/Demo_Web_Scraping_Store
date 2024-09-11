@@ -16,7 +16,7 @@ const Cards = () => {
                             price={price}
                             title={title || name}
                             thumbnail={thumbnail || image}
-                            key={id}
+                            key={id || name}
                             store={store || undefined}
                         />
                     )
@@ -29,7 +29,7 @@ const Cards = () => {
                             price={price}
                             title={title || name}
                             thumbnail={thumbnail || image}
-                            key={id}
+                            key={id || name}
                             store={store || undefined}
                         />
                     )
