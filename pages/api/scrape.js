@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
 		await browser.close();
 
-		return res.status(200).json({ data: productsData });
+		return res.status(200).json(productsData);
 	} catch (err) {
 		console.error(`Error scraping product data from: ${product}`);
 		console.error(err);

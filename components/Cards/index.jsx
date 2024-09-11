@@ -35,7 +35,7 @@ const Cards = () => {
                     )
                 )
             ) : (
-                <div className="loader"></div>
+                <div className="loader" />
             )}
         </section>
     )

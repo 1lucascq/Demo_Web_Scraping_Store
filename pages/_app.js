@@ -1,12 +1,12 @@
-
+// pages/_app.js
 import '../styles/main.css';
-import Provider from '../app/context/Provider';
+import { DataProvider } from '../app/context/Context';
 
 function MyApp({ Component, pageProps }) {
 	return (
-		<Provider>
+		<DataProvider>
 			<Component {...pageProps} />
-		</Provider>
+		</DataProvider>
 	);
 }
 
