@@ -32,7 +32,7 @@ const Card = ({ price, title, thumbnail, store, link }) => {
 					<p className='text-xl text-orange-500 mb-4'>{getPrice(price)}</p>
 					<div className='text-center'>
 						<a
-							className='bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-700 transition-colors'
+							className='bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 transition-colors'
 							href={link}
 							target='_blank'
 						>

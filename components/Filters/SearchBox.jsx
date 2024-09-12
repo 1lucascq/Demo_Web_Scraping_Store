@@ -27,7 +27,7 @@ const SearchBox = () => {
                 onChange={({ target }) => searchFunction(target)}
             />
             <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
+                className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition duration-200"
             >
                 Buscar
             </button>
