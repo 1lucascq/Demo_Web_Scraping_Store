@@ -6,7 +6,7 @@ import { webOptions, categories } from '../../app/options';
 const Filters = () => {
 	return (
 		<section className='container mx-auto'>
-			<div className="flex flex-col justify-center w-[600px]">
+			<div className='flex flex-col justify-center w-[600px]'>
 				<div className=''>
 					<div className='mb-4'>
 						<SearchBox />
