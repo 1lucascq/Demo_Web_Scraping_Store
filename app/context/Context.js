@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react';
+// app/context/Context.js
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { fetchMlData } from '../services/APICalls';
-import { useDebounce } from 'use-debounce';
+import { mockedBuscapeData } from '../options';
 
 const DataContext = createContext();
 
@@ -11,100 +11,65 @@ const DEFAULT_FILTERS = {
 };
 
 export const DataProvider = ({ children }) => {
-	const [scrapedData, setScrapedData] = useState([]);
-	const [mlData, setMlData] = useState({});
-	const [buscapeData, setBuscapeData] = useState({});
+	const [mlData, setMlData] = useState({ tv: [], celular: [], geladeira: [] });
+	const [buscapeData, setBuscapeData] = useState({ tv: [], celular: [], geladeira: [] });
 	const [filters, setFilters] = useState(DEFAULT_FILTERS);
 	const [activeData, setActiveData] = useState([]);
 	const [activeFilteredData, setActiveFilteredData] = useState([]);
 	const [loading, setLoading] = useState(true);
-
-	const [debouncedFilters] = useDebounce(filters, 300);
+	const [URL, setURL] = useState('');
 
 	useEffect(() => {
-		async function getData() {
-			setActiveData(undefined);
-			setActiveFilteredData(undefined);
+		const fetchData = async () => {
+			try {
+				const [responseTv, responseCelular, responseGeladeira] = await Promise.all([
+					fetch(`${URL}/api/scrape?product=tv`),
+					fetch(`${URL}/api/scrape?product=celular`),
+					fetch(`${URL}/api/scrape?product=geladeira`),
+				]);
 
-			if (debouncedFilters.api === 'ml') {
-				if (mlData[debouncedFilters.category]) {
-					setActiveData(mlData[debouncedFilters.category]);
-					setLoading(false);
-					return;
+				if (!responseTv.ok || !responseCelular.ok || !responseGeladeira.ok) {
+					throw new Error('One or more fetch requests failed');
 				}
-				const filteredData = await fetchMlData[debouncedFilters.category]();
-				setMlData((prevData) => ({ ...prevData, [debouncedFilters.category]: filteredData }));
-				setActiveData(filteredData);
-				setLoading(false);
-				return;
-			}
 
-			if (debouncedFilters.api === 'buscape') {
-				if (buscapeData[debouncedFilters.category]) {
-					setActiveData(buscapeData[debouncedFilters.category]);
-					setLoading(false);
-					return;
-				}
-				try {
-					const filteredData = buscapeData[debouncedFilters.category];
-					setActiveData(filteredData);
-					setLoading(false);
-				} catch (error) {
-					console.error('~~ERROR~~');
-					console.error(error);
-				}
-				return;
-			}
+				const [tv, celular, geladeira] = await Promise.all([responseTv.json(), responseCelular.json(), responseGeladeira.json()]);
+				const buscapeData = { tv, celular, geladeira };
 
-			if (debouncedFilters.api === 'all') {
-				const mlData = await fetchMlData[debouncedFilters.category]();
-				setMlData((prevData) => ({ ...prevData, [debouncedFilters.category]: mlData }));
-				setActiveData(mlData);
-				setLoading(false);
-				try {
-					const buscapeData = await buscapeData[debouncedFilters.category];
-					setActiveData((prevData) => {
-						const newData = [...prevData, ...buscapeData];
-						if (newData !== activeData) {
-							return newData;
-						}
-						return prevData;
-					});
-					setLoading(false);
-				} catch (error) {
-					const filteredData = [...mlData];
-					setActiveData(filteredData);
-					setLoading(false);
-					console.error('~~ERROR~~');
-					console.error(error);
-				}
-				return;
+				setBuscapeData(buscapeData);
+				setActiveData(buscapeData[filters.category]);
+			} catch (err) {
+				setBuscapeData(mockedBuscapeData);
+				setActiveData(buscapeData[filters.category]);
 			}
+		};
+
+		if (URL) {
+			fetchData();
 		}
-		getData();
-	}, [debouncedFilters, buscapeData, mlData, activeData]);
+	}, [URL]);
 
-	const contextValue = useMemo(
-		() => ({
-			scrapedData,
-			setScrapedData,
-			mlData,
-			setMlData,
-			buscapeData,
-			setBuscapeData,
-			filters,
-			setFilters,
-			activeData,
-			setActiveData,
-			activeFilteredData,
-			setActiveFilteredData,
-			loading,
-			setLoading,
-		}),
-		[scrapedData, mlData, buscapeData, filters, activeData, activeFilteredData, loading]
+	return (
+		<DataContext.Provider
+			value={{
+				mlData,
+				setMlData,
+				buscapeData,
+				setBuscapeData,
+				filters,
+				setFilters,
+				activeData,
+				setActiveData,
+				activeFilteredData,
+				setActiveFilteredData,
+				loading,
+				setLoading,
+				URL,
+				setURL,
+			}}
+		>
+			{children}
+		</DataContext.Provider>
 	);
-
-	return <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>;
 };
 
 DataProvider.propTypes = {
