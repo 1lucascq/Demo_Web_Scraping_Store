@@ -49,13 +49,14 @@ export default async function handler(req, res) {
 		await page.waitForSelector('[data-testid="product-card"]', { timeout: 15000 });
 
 		const productsData = await page.$$eval('[data-testid="product-card::card"]', (productCards) => {
-			return productCards.slice(0, 10).map((card) => {
-				const name = card.querySelector('[data-testid="product-card::name"]')?.textContent || 'No name';
-				const price = card.querySelector('[data-testid="product-card::price"]')?.textContent || 'No price';
-				const image = card.querySelector('[data-testid="product-card::image"] img')?.src || 'No image';
-
-				return { name, price, image, store: 'Buscapé' };
-			});
+			return productCards.slice(0, 17)
+				.filter(card => !card.href.includes('lead'))
+				.map((card, index) => {
+					const title = card.querySelector('[data-testid="product-card::name"]')?.textContent || 'No name';
+					const price = card.querySelector('[data-testid="product-card::price"]')?.textContent || 'No price';
+					const thumbnail = card.querySelector('[data-testid="product-card::image"] img')?.src || 'No image';
+					return { title, price, thumbnail, store: 'Buscapé', id: index, link: card.href };
+				});
 		});
 
 		await browser.close();
