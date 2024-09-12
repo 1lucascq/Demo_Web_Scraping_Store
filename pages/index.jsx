@@ -1,43 +1,53 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Filters from '../components/Filters';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
 import Footer from '../components/Footer';
-import DataContext from '../app/context/Context';
-import { mockedBuscapeData } from '../app/options';
+import context from '../app/context/Context';
+import { fetchMlData } from '../app/services/APICalls';
 
 const scrapErrorMessage =
 	'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.';
 
 const Home = ({ URL }) => {
-	const { setBuscapeData } = useContext(DataContext);
+	const { filters, setActiveData, setURL, mlData, setMlData, setLoading, buscapeData } = useContext(context);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const [responseTv, responseCelular, responseGeladeira] = await Promise.all([
-					fetch(`${URL}/api/scrape?product=tv`),
-					fetch(`${URL}/api/scrape?product=celular`),
-					fetch(`${URL}/api/scrape?product=geladeira`),
-				]);
+		setURL(URL);
+	}, [URL]);
 
-				if (!responseTv.ok || !responseCelular.ok || !responseGeladeira.ok) {
-					throw new Error('One or more fetch requests failed');
-				}
+	useEffect(() => {
+		setLoading(true);
 
-				const [tv, celular, geladeira] = await Promise.all([responseTv.json(), responseCelular.json(), responseGeladeira.json()]);
-				const buscapeData = { tv, celular, geladeira };
+		async function getData() {
+			const filteredData = await fetchMlData[filters.category]();
+			const newMlData = mlData;
+			newMlData[filters.category] = filteredData;
 
-				setBuscapeData(buscapeData);
-			} catch (err) {
-				console.log(mockedBuscapeData);
-				setBuscapeData(mockedBuscapeData);
-			}
-		};
+			setMlData(newMlData);
+			setActiveData(filteredData);
+			return;
+		}
 
-		fetchData();
-	}, [setBuscapeData]);
+		if (filters.api === 'ml') {
+			const dataAlreadyFetched = mlData[filters.category].length > 0;
+			dataAlreadyFetched ? setActiveData(mlData[filters.category]) : getData();
+			setLoading(false);
+		}
+		if (filters.api === 'buscape') {
+			setActiveData(buscapeData[filters.category]);
+			setLoading(false);
+		}
 
+		if (filters.api === 'all') {
+			let allData = [];
+			const dataAlreadyFetched = mlData[filters.category].length > 0;
+			if (!dataAlreadyFetched) getData();
+			allData = [...mlData[filters.category], ...buscapeData[filters.category]];
+			setActiveData(allData);
+			setLoading(false);
+		}
+	}, [filters]);
 	return (
 		<>
 			<Header />
@@ -52,7 +62,6 @@ const Home = ({ URL }) => {
 
 export async function getServerSideProps() {
 	try {
-		// Mock data, or you can return an error message as needed
 		return {
 			props: {
 				URL: process.env.NEXT_PUBLIC_URL || process.env.URL || 'http://localhost:3000',
