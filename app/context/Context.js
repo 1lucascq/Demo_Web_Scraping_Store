@@ -15,9 +15,9 @@ export const DataProvider = ({ children }) => {
 	const [buscapeData, setBuscapeData] = useState({ tv: [], celular: [], geladeira: [] });
 	const [filters, setFilters] = useState(DEFAULT_FILTERS);
 	const [activeData, setActiveData] = useState([]);
-	const [activeFilteredData, setActiveFilteredData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [URL, setURL] = useState('');
+	const [query, setQuery] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -58,12 +58,12 @@ export const DataProvider = ({ children }) => {
 				setFilters,
 				activeData,
 				setActiveData,
-				activeFilteredData,
-				setActiveFilteredData,
 				loading,
 				setLoading,
 				URL,
 				setURL,
+				query,
+				setQuery,
 			}}
 		>
 			{children}

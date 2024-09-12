@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import Cards from '../components/Cards';
 import Footer from '../components/Footer';
 import context from '../app/context/Context';
-import { fetchMlData } from '../app/services/APICalls';
 
 const scrapErrorMessage =
 	'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.';
@@ -16,38 +15,6 @@ const Home = ({ URL }) => {
 		setURL(URL);
 	}, [URL]);
 
-	useEffect(() => {
-		setLoading(true);
-
-		async function getData() {
-			const filteredData = await fetchMlData[filters.category]();
-			const newMlData = mlData;
-			newMlData[filters.category] = filteredData;
-
-			setMlData(newMlData);
-			setActiveData(filteredData);
-			return;
-		}
-
-		if (filters.api === 'ml') {
-			const dataAlreadyFetched = mlData[filters.category].length > 0;
-			dataAlreadyFetched ? setActiveData(mlData[filters.category]) : getData();
-			setLoading(false);
-		}
-		if (filters.api === 'buscape') {
-			setActiveData(buscapeData[filters.category]);
-			setLoading(false);
-		}
-
-		if (filters.api === 'all') {
-			let allData = [];
-			const dataAlreadyFetched = mlData[filters.category].length > 0;
-			if (!dataAlreadyFetched) getData();
-			allData = [...mlData[filters.category], ...buscapeData[filters.category]];
-			setActiveData(allData);
-			setLoading(false);
-		}
-	}, [filters]);
 	return (
 		<>
 			<Header />
