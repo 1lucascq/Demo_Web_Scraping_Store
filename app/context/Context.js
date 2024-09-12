@@ -27,7 +27,6 @@ export const DataProvider = ({ children }) => {
 					fetch(`${URL}/api/scrape?product=celular`),
 					fetch(`${URL}/api/scrape?product=geladeira`),
 				]);
-
 				if (!responseTv.ok || !responseCelular.ok || !responseGeladeira.ok) {
 					throw new Error('One or more fetch requests failed');
 				}
@@ -39,7 +38,8 @@ export const DataProvider = ({ children }) => {
 				setActiveData(buscapeData[filters.category]);
 			} catch (err) {
 				setBuscapeData(mockedBuscapeData);
-				setActiveData(buscapeData[filters.category]);
+				setActiveData(mockedBuscapeData[filters.category]);
+				// setLoading(false);
 			}
 		};
 
