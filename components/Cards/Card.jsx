@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Card = ({ id, price, title, thumbnail, store }) => {
+const Card = ({ price, title, thumbnail, store, link }) => {
 	const getPrice = (price) => {
 		if (typeof price === 'number') {
 			const priceInReais = `R$ ${price.toFixed(2).replace('.', ',')}`;
@@ -31,7 +31,13 @@ const Card = ({ id, price, title, thumbnail, store }) => {
 					<p className='text-sm text-gray-500 mb-2'>Loja: {store ? store : 'Mercado Livre'}</p>
 					<p className='text-xl text-orange-500 mb-4'>{getPrice(price)}</p>
 					<div className='text-center'>
-						<button className='bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors'>Ir a página</button>
+						<a
+							className='bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-700 transition-colors'
+							href={link}
+							target='_blank'
+						>
+							Ir a página
+						</a>
 					</div>
 				</div>
 			</div>
