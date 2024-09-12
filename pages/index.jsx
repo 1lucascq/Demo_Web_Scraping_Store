@@ -5,8 +5,7 @@ import Cards from '../components/Cards';
 import Footer from '../components/Footer';
 import context from '../app/context/Context';
 
-const scrapErrorMessage =
-	'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.';
+// 'Web scraping functionality has been disabled in this deployment because Vercel does not support an internal Chromium instance required for Puppeteer scraping. Setting up an alternative environment on platforms like Heroku, AWS, or GCP would be necessary, but given the additional complexity and effort involved, it was deemed not worthwhile for this project.';
 
 const Home = ({ URL }) => {
 	const { setURL } = useContext(context);
