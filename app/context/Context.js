@@ -39,7 +39,6 @@ export const DataProvider = ({ children }) => {
 			} catch (err) {
 				setBuscapeData(mockedBuscapeData);
 				setActiveData(mockedBuscapeData[filters.category]);
-				// setLoading(false);
 			}
 		};
 
